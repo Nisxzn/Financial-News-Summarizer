@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>News Summarizer</title>
+    <meta name="description" content="Get instant AI-powered summaries of complex financial news and market reports.">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div class="bg-overlay"></div>
+    <div class="bg-blur"></div>
+
+    <div class="container">
+        <header>
+            <h1>News Summarizer</h1>
+            <p class="subtitle">AI-powered financial news intelligence</p>
+        </header>
+
+        <main>
+            <div class="input-group">
+                <label for="articleText">Market Analysis / News Article</label>
+                <textarea id="articleText"
+                    placeholder="Paste a financial report or news article to summarize... (minimum 50 characters)"></textarea>
+            </div>
+
+            <div class="actions">
+                <button id="summarizeBtn" onclick="summarizeArticle()">
+                    <span class="btn-text">Summarize</span>
+                    <div id="loading" class="loading-spinner"></div>
+                </button>
+            </div>
+
+            <div id="resultContainer" class="result-container">
+                <div class="result-title">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                        <polyline points="14 2 14 8 20 8"></polyline>
+                        <line x1="16" y1="13" x2="8" y2="13"></line>
+                        <line x1="16" y1="17" x2="8" y2="17"></line>
+                        <polyline points="10 9 9 9 8 9"></polyline>
+                    </svg>
+                    Market Synopsis
+                </div>
+                <div id="summaryResult" class="result-content"></div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        async function summarizeArticle() {
+            const article = document.getElementById('articleText').value;
+            const btn = document.getElementById('summarizeBtn');
+            const loading = document.getElementById('loading');
+            const resultContainer = document.getElementById('resultContainer');
+            const summaryResult = document.getElementById('summaryResult');
+
+            if (!article || article.trim().length < 50) {
+                alert('Please provide a longer article (at least 50 characters).');
+                return;
+            }
+
+            // UI State
+            btn.disabled = true;
+            loading.style.display = 'block';
+            resultContainer.style.display = 'none';
+
+            try {
+                const response = await fetch('http://127.0.0.1:5000/summarize', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ article: article })
+                });
+
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+
+                const data = await response.json();
+
+                if (data.error) {
+                    summaryResult.innerText = `Error: ${data.error}`;
+                } else {
+                    summaryResult.innerText = data.summary;
+                }
+
+                resultContainer.style.display = 'block';
+                resultContainer.scrollIntoView({ behavior: 'smooth' });
+
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Failed to connect to the summarization service. Please ensure the backend is running.');
+            } finally {
+                btn.disabled = false;
+                loading.style.display = 'none';
+            }
+        }
+    </script>
+</body>
+
+</html>
