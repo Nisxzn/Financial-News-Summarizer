@@ -37,6 +37,5 @@ Simply open `frontend/index.html` in your favorite web browser.
 - **Backend**: Python, Flask, HuggingFace Transformers (PyTorch)
 - **Frontend**: HTML5, Vanilla CSS3 (Inter Font, Flexbox, Glassmorphism)
 - **Model**: `facebook/bart-large-cnn`
-```
-
+---
 **Created for academic assignment purposes.**
