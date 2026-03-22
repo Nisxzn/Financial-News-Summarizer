@@ -1,5 +1,5 @@
 
-# 📈 EquitySum: AI Financial News Summarizer
+# AI Financial News Summarizer
 
 EquitySum is a high-end, AI-powered tool designed to distill complex financial news and market reports into concise, actionable summaries. Using NLP models, it extracts the core insights from long-form articles, saving you time and improving market comprehension.
 
