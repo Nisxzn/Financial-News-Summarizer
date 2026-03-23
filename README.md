@@ -38,4 +38,4 @@ Simply open `frontend/index.html` in your favorite web browser.
 - **Frontend**: HTML5, Vanilla CSS3 (Inter Font, Flexbox, Glassmorphism)
 - **Model**: `facebook/bart-large-cnn`
 ---
-**Created for academic assignment purposes.**
+**Created by nisxzn for academic assignment purposes.**
